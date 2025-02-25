@@ -14,7 +14,6 @@ public class ZippingGame {
 
     public static void zipFiles(String pathZip, File... pathSave) {
         try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(pathZip))) {
-
             for (File file : pathSave) {
                 FileInputStream fis = new FileInputStream(file);
                 zos.putNextEntry(new ZipEntry(file.getName()));

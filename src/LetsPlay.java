@@ -30,9 +30,11 @@ public class LetsPlay {
         System.out.println("Congratulations! You have been zipped and saved the Game!\n");
 
         // Разархивирование файлов (Задание 3)
-        UnzippingGame.openZip(zippedSaves_zip, saveGames1.getParent());
+        UnzippingGame.openZip(zippedSaves_zip, saveGames3.getParent());
 
-        // Восстановление игрового процесса и чтение одного файла (Задание 3)
+        // Восстановление игрового процесса и вывод в консооль файлов (Задание 3)
         System.out.println(UnzippingGame.openProgress(saveGames1.getAbsolutePath()));
+        System.out.println(UnzippingGame.openProgress(saveGames2.getAbsolutePath()));
+        System.out.println(UnzippingGame.openProgress(saveGames3.getAbsolutePath()));
     }
 }

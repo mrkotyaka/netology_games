@@ -13,7 +13,7 @@ public class UnzippingGame {
             String name;
             while ((entry = zin.getNextEntry()) != null) {
                 name = entry.getName();
-                FileOutputStream fout = new FileOutputStream(distinationDirectory +"/"+ name);
+                FileOutputStream fout = new FileOutputStream(distinationDirectory + "/" + name);
                 for (int c = zin.read(); c != -1; c = zin.read()) {
                     fout.write(c);
                 }

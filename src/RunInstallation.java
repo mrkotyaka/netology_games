@@ -46,8 +46,6 @@ public class RunInstallation {
     }
 
     private static void makeDirectory(StringBuilder sb, File ... directories) {
-//        Date current = new Date();
-
         for (File directory : directories) {
             if (directory.mkdir()) {
                 sb.append(new Date()).append(INFO).append(directory.getAbsolutePath()).append(DIR_CREATED).append('\n');
@@ -55,12 +53,9 @@ public class RunInstallation {
                 sb.append(new Date()).append(WARNING).append(directory.getAbsolutePath()).append(DIR_NOT_CREATED).append('\n');
             }
         }
-
     }
 
     private static void makeFile(StringBuilder sb, File ... files) {
-//        Date current = new Date();
-
         for (File file : files) {
             try {
                 if (file.getParentFile().exists()) {
