@@ -67,7 +67,7 @@ public class RunInstallation {
         }
     }
 
-    private static void makeFile(StringBuilder sb, File file) {
+    public static void makeFile(StringBuilder sb, File file) {
         Date current = new Date();
 
         try {
