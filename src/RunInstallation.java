@@ -13,40 +13,29 @@ public class RunInstallation {
     private static final String FILE_NOT_CREATED = " - файл не создан.";
 
     public static void running () {
-
         StringBuilder sb = new StringBuilder();
 
-        File homeDirectory = new File("C:/Users/lenovo/Games");
-        makeDirectory(sb, homeDirectory);
+        File games = new File("C:/Users/lenovo/Games");
 
-        File src = new File(homeDirectory, "src");
-        File res = new File(homeDirectory, "res");
-        File savegames = new File(homeDirectory, "savegames");
-        File temp = new File(homeDirectory, "temp");
-        makeDirectory(sb, src);
-        makeDirectory(sb, res);
-        makeDirectory(sb, savegames);
-        makeDirectory(sb, temp);
+        File src = new File(games, "src");
+        File res = new File(games, "res");
+        File savegames = new File(games, "savegames");
+        File temp = new File(games, "temp");
 
         File main = new File(src, "main");
         File test = new File(src, "test");
-        makeDirectory(sb, main);
-        makeDirectory(sb, test);
-
-        File main_java = new File(main, "Main.java");
-        File utils_java = new File(main, "Utils.java");
-        makeFile(sb, main_java);
-        makeFile(sb, utils_java);
 
         File drawables = new File(res, "drawables");
         File vectors = new File(res, "vectors");
         File icons = new File(res, "icons");
-        makeDirectory(sb, drawables);
-        makeDirectory(sb, vectors);
-        makeDirectory(sb, icons);
 
+        makeDirectory(sb, games, src,res, savegames, temp, main, test, drawables, vectors, icons);
+
+        File main_java = new File(main, "Main.java");
+        File utils_java = new File(main, "Utils.java");
         File temp_txt = new File(temp, "temp.txt");
-        makeFile(sb, temp_txt);
+
+        makeFile(sb, main_java, utils_java, temp_txt);
 
         try (FileWriter writer = new FileWriter(temp_txt, true)) {
             writer.write(String.valueOf(sb));
@@ -58,30 +47,36 @@ public class RunInstallation {
         System.out.println("Congratulations! You have been installed the Game!");
     }
 
-    private static void makeDirectory(StringBuilder sb, File directory) {
-        Date current = new Date();
-        if (directory.mkdir()) {
-            sb.append(current).append(INFO).append(directory.getAbsolutePath()).append(DIR_CREATED).append('\n');
-        } else {
-            sb.append(current).append(WARNING).append(directory.getAbsolutePath()).append(DIR_NOT_CREATED).append('\n');
+    private static void makeDirectory(StringBuilder sb, File ... directories) {
+//        Date current = new Date();
+
+        for (File directory : directories) {
+            if (directory.mkdir()) {
+                sb.append(new Date()).append(INFO).append(directory.getAbsolutePath()).append(DIR_CREATED).append('\n');
+            } else {
+                sb.append(new Date()).append(WARNING).append(directory.getAbsolutePath()).append(DIR_NOT_CREATED).append('\n');
+            }
         }
+
     }
 
-    public static void makeFile(StringBuilder sb, File file) {
-        Date current = new Date();
+    private static void makeFile(StringBuilder sb, File ... files) {
+//        Date current = new Date();
 
-        try {
-            if (file.getParentFile().exists()) {
-                if (file.createNewFile()) {
-                    sb.append(current).append(INFO).append(file.getAbsolutePath()).append(FILE_CREATED).append('\n');
+        for (File file : files) {
+            try {
+                if (file.getParentFile().exists()) {
+                    if (file.createNewFile()) {
+                        sb.append(new Date()).append(INFO).append(file.getAbsolutePath()).append(FILE_CREATED).append('\n');
+                    } else {
+                        sb.append(new Date()).append(WARNING).append(file.getAbsolutePath()).append(FILE_NOT_CREATED).append('\n');
+                    }
                 } else {
-                    sb.append(current).append(WARNING).append(file.getAbsolutePath()).append(FILE_NOT_CREATED).append('\n');
+                    sb.append(new Date()).append(WARNING).append(file.getParentFile().getAbsolutePath()).append(DIR_NOT_CREATED).append('\n');
                 }
-            } else {
-                sb.append(current).append(WARNING).append(file.getParentFile().getAbsolutePath()).append(DIR_NOT_CREATED).append('\n');
+            } catch (IOException e) {
+                sb.append(new Date()).append(ERROR).append(file.getParentFile().getAbsolutePath()).append(FILE_NOT_CREATED).append(e.getMessage()).append('\n');
             }
-        } catch (IOException e) {
-            sb.append(current).append(ERROR).append(file.getParentFile().getAbsolutePath()).append(FILE_NOT_CREATED).append(e.getMessage()).append('\n');
         }
     }
 }
