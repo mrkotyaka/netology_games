@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -13,22 +12,21 @@ public class LetsPlay {
         GameProgress gameProgress2 = new GameProgress(94, 10, 2, 274.63);
         GameProgress gameProgress3 = new GameProgress(100, 30, 100, 4832.24);
 
-//        File savegames1 = new File("C:/Users/lenovo/Games/savegames/save1.dat");
-//        File savegames2 = new File("C:/Users/lenovo/Games/savegames/save2.dat");
-//        File savegames3 = new File("C:/Users/lenovo/Games/savegames/save3.dat");
-//        RunInstallation.makeFile(sb, savegames1);
-//        saveGame(savegames1.getAbsolutePath(), gameProgress1);
+        File saveGames1 = new File("C:/Users/lenovo/Games/savegames/save1.dat");
+        File saveGames2 = new File("C:/Users/lenovo/Games/savegames/save2.dat");
+        File saveGames3 = new File("C:/Users/lenovo/Games/savegames/save3.dat");
 
-        String savegames1 = "C:/Users/lenovo/Games/savegames/save1.dat";
-        String savegames2 = "C:/Users/lenovo/Games/savegames/save2.dat";
-        String savegames3 = "C:/Users/lenovo/Games/savegames/save3.dat";
-        saveGame(savegames1, gameProgress1);
-        saveGame(savegames2, gameProgress2);
-        saveGame(savegames3, gameProgress3);
+        String save1 = saveGames1.getAbsolutePath();
+        String save2 = saveGames2.getAbsolutePath();
+        String save3 = saveGames3.getAbsolutePath();
+        saveGame(save1, gameProgress1);
+        saveGame(save2, gameProgress2);
+        saveGame(save3, gameProgress3);
 
-        String zip_zip = "C:/Users/lenovo/Games/savegames/zip.zip";
+        String zippedSaves_zip = "C:/Users/lenovo/Games/savegames/zippedSaves.zip";
 
-        zipFiles(zip_zip,  savegames1, savegames2, savegames3);
+//        zipFiles2(zippedSaves_zip,  savegames1, savegames2, savegames3);
+        zipFiles(zippedSaves_zip, saveGames1, saveGames2, saveGames3);
 
         System.out.println("Congratulations! You have been zipped and saved the Game!");
     }
@@ -41,19 +39,33 @@ public class LetsPlay {
             System.out.println(ex.getMessage());
         }
     }
-    public static void zipFiles(String pathZip, String ... pathSave) {
-        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("new_my_dir/zos_zipers.zip"));
-             FileInputStream fis = new FileInputStream("new_my_dir/file_zip.txt")) {
-            ZipEntry entry = new ZipEntry(Arrays.toString(pathSave));
-            zos.putNextEntry(entry);
-            byte[] b = new byte[fis.available()];
-            if(fis.read(b) != -1) {
-                System.out.println("File read");
+
+    public static void zipFiles(String pathZip, File... pathSave) {
+        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(pathZip))) {
+            for (int i = 0; i < pathSave.length; i++) {
+                FileInputStream fis = new FileInputStream(pathSave[i]);
+                zos.putNextEntry(new ZipEntry(pathSave[i].getName()));
+                byte[] buffer = new byte[fis.available()];
+                fis.read(buffer);
+                zos.write(buffer);
+                zos.closeEntry();
             }
-            zos.write(b);
-            zos.closeEntry();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
+//    public static void zipFiles2(String pathZip, String ... pathSave) {
+//        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(pathZip))) {
+//            for (int i = 0; i < pathSave.length; i++) {
+//                FileInputStream fis = new FileInputStream(pathSave[i]);
+//                zos.putNextEntry(new ZipEntry("save"+i));
+//                byte[] buffer = new byte[fis.available()];
+//                fis.read(buffer);
+//                zos.write(buffer);
+//                zos.closeEntry();
+//            }
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }
