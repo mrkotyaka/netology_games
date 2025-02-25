@@ -43,8 +43,6 @@ public class RunInstallation {
         } catch (IOException ex) {
             System.out.println(new Date() + ERROR + ex.getMessage());
         }
-
-        System.out.println("Congratulations! You have been installed the Game!");
     }
 
     private static void makeDirectory(StringBuilder sb, File ... directories) {
