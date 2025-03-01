@@ -31,13 +31,13 @@ public class RunInstallation {
 
         makeDirectory(sb, games, src,res, savegames, temp, main, test, drawables, vectors, icons);
 
-        File main_java = new File(main, "Main.java");
-        File utils_java = new File(main, "Utils.java");
-        File temp_txt = new File(temp, "temp.txt");
+        File mainJava = new File(main, "Main.java");
+        File utilsJava = new File(main, "Utils.java");
+        File tempTxt = new File(temp, "temp.txt");
 
-        makeFile(sb, main_java, utils_java, temp_txt);
+        makeFile(sb, mainJava, utilsJava, tempTxt);
 
-        try (FileWriter writer = new FileWriter(temp_txt, true)) {
+        try (FileWriter writer = new FileWriter(tempTxt, true)) {
             writer.write(String.valueOf(sb));
             writer.flush();
         } catch (IOException ex) {
